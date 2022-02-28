@@ -1,0 +1,35 @@
+@import 'variables';
+@import 'font-config';
+@import 'typography';
+@import 'layouts';
+
+$body-size: 62.5%;
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+html {
+  font-family: $font-family;
+  font-size: $body-size !important;
+}
+
+.v-content {
+  background-color: $white;
+}
+.v-application .text-center {
+  text-align: center !important;
+  font-family: Open-Sans-Regular !important;
+}
+.v-application p {
+  margin-bottom: 0 !important;
+}
+.v-application {
+  font-family: Open-Sans-Regular !important;
+}
+.container {
+  max-width: none !important;
+}

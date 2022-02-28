@@ -1,0 +1,196 @@
+.stop-selection {
+  user-select: none;
+}
+/* ------------------ Predefined font family and font size ------------------ */
+/* ------------------------------ medium style ------------------------------ */
+.open-sans-medium-30 {
+  font-family: Open-Sans-Medium;
+  font-size: 3rem;
+}
+.open-sans-medium-22 {
+  font-family: Open-Sans-Medium;
+  font-size: 2.2rem;
+}
+.open-sans-medium-20 {
+  font-family: Open-Sans-Medium;
+  font-size: 2rem;
+}
+.open-sans-medium-18 {
+  font-family: Open-Sans-Medium;
+  font-size: 1.8rem;
+}
+.open-sans-medium-16 {
+  font-family: Open-Sans-Medium;
+  font-size: 1.6rem;
+}
+.open-sans-medium-14 {
+  font-family: Open-Sans-Medium;
+  font-size: 1.4rem;
+}
+.open-sans-medium-13 {
+  font-family: Open-Sans-Medium;
+  font-size: 1.3rem;
+}
+.open-sans-medium-12 {
+  font-family: Open-Sans-Medium;
+  font-size: 1.2rem;
+}
+.open-sans-medium-10 {
+  font-family: Open-Sans-Medium;
+  font-size: 1rem;
+}
+/* ------------------------------ regular style ----------------------------- */
+.open-sans-regular-16 {
+  font-family: Open-Sans-Regular;
+  font-size: 1.6rem;
+}
+.open-sans-regular-14 {
+  font-family: Open-Sans-Regular;
+  font-size: 1.4rem;
+}
+.open-sans-regular-13 {
+  font-family: Open-Sans-Regular;
+  font-size: 1.3rem;
+}
+.open-sans-regular-12 {
+  font-family: Open-Sans-Regular;
+  font-size: 1.2rem;
+}
+/* ----------------------------- semi bold style ---------------------------- */
+.open-sans-semibold-16 {
+  font-family: Open-Sans-SemiBold;
+  font-size: 1.6rem;
+}
+.open-sans-semibold-14 {
+  font-family: Open-Sans-SemiBold;
+  font-size: 1.4rem;
+}
+.open-sans-semibold-13 {
+  font-family: Open-Sans-SemiBold;
+  font-size: 1.3rem;
+}
+.open-sans-semibold-12 {
+  font-family: Open-Sans-SemiBold;
+  font-size: 1.2rem;
+}
+
+/* ------------------------------- fomt family ------------------------------ */
+.font-open-sans-bold {
+  font-family: Open-Sans-Bold;
+}
+.font-open-sans-medium {
+  font-family: Open-Sans-Medium;
+}
+.font-open-sans-regular {
+  font-family: Open-Sans-Regular;
+}
+
+/* -------------------------------- font-size ------------------------------- */
+.font-size-10 {
+  font-size: 1rem;
+}
+.font-size-11 {
+  font-size: 1.1rem;
+}
+.font-size-12 {
+  font-size: 1.2rem;
+}
+.font-size-13 {
+  font-size: 1.3rem;
+}
+.font-size-14 {
+  font-size: 1.4rem;
+}
+.font-size-15 {
+  font-size: 1.5rem;
+}
+.font-size-16 {
+  font-size: 1.6rem;
+}
+.font-size-18 {
+  font-size: 1.8rem;
+}
+.font-size-20 {
+  font-size: 2rem;
+}
+.font-size-24 {
+  font-size: 2.4rem;
+}
+.font-size-22 {
+  font-size: 2.2rem;
+}
+.font-size-30 {
+  font-size: 3rem;
+}
+
+/* ------------------------------- font-weight ------------------------------ */
+.font-weight-500 {
+  font-weight: 500;
+}
+.font-weight-600 {
+  font-weight: 600;
+}
+
+/* ------------------------------- line-height ------------------------------ */
+.has-line-height-14 {
+  line-height: 14px;
+}
+.has-line-height-16 {
+  line-height: 16px;
+}
+.has-line-height-17 {
+  line-height: 17px;
+}
+.has-line-height-19 {
+  line-height: 19px;
+}
+.has-line-height-22 {
+  line-height: 22px;
+}
+
+/* ------------------------------ text - color ------------------------------ */
+.has-primary-text {
+  color: $primary-text;
+}
+.has-black-text {
+  color: black;
+}
+
+.has-secondary-text {
+  color: $secondary-text;
+}
+.has-light-text {
+  color: $color-lighter-gray;
+}
+
+.has-disabled-text {
+  color: $disabled-text;
+}
+.has-success-text {
+  color: $color-primary;
+}
+
+.has-highlight-text {
+  color: $color-primary !important;
+}
+
+.has-danger-text {
+  color: $danger !important;
+}
+
+.has-white-text {
+  color: $white;
+}
+
+/* ------------------------------ text - align ------------------------------ */
+.is-text-align-center {
+  text-align: center;
+}
+
+.is-text-align-right {
+  text-align: right;
+}
+
+.no-whitespace-wrap {
+  white-space: nowrap;
+}
