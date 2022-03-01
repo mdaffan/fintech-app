@@ -131,6 +131,8 @@
                 <v-text-field
                   v-model="form.expiry"
                   label="Expiry"
+                  :rules="[v => !!v || 'Item is required']"
+                  required
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -219,12 +221,14 @@ export default class MobileCards extends Vue {
       valid,
     )
     console.log(this.form)
-    CardModule.addCard({
-      ...this.form,
-      id: uuidv4(),
-      expiry: dayjs(this.form.expiry).format('MM/YY'),
-    })
-    this.dialog = false
+    if (valid) {
+      CardModule.addCard({
+        ...this.form,
+        id: uuidv4(),
+        expiry: dayjs(this.form.expiry).format('MM/YY'),
+      })
+      this.dialog = false
+    }
   }
   updateCard(payload: any) {
     CardModule.updateCardDetails({
