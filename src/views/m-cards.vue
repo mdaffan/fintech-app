@@ -316,7 +316,7 @@ export default class MobileCards extends Vue {
   right: 5px;
   background: $white;
   z-index: 1;
-  height: 2.5rem;
+  height: 2.2rem;
   border-radius: 6px 6px 0 0;
 }
 ::v-deep .slick-dots {
@@ -325,7 +325,7 @@ export default class MobileCards extends Vue {
     background: $color-primary;
     width: 1.6rem;
     height: 0.8rem;
-    opacity: 100%;
+    opacity: 1;
   }
   .slick-active button:before {
     font-family: unset;
@@ -335,7 +335,7 @@ export default class MobileCards extends Vue {
     background: $color-primary;
     width: 0.8rem;
     height: 0.8rem;
-    opacity: 10%;
+    opacity: 0.3;
     list-style: none;
   }
 }

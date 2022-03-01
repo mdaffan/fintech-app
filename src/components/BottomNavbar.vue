@@ -1,9 +1,11 @@
 <template>
   <div class="bottom-nav">
-    <router-link
+    <div
       v-for="item in items"
       :key="item.name"
-      :to="item.to"
+      @click="
+        item.to.name !== 'm-cards' ? $emit('show-alert') : $router.push(item.to)
+      "
       class="is-50x50 is-flex-center"
     >
       <icon
@@ -18,7 +20,7 @@
       >
         {{ item.name }}
       </div>
-    </router-link>
+    </div>
   </div>
 </template>
 
