@@ -6,7 +6,8 @@
       "cardNumber": "4564587412362020",
 
       "cvv": 123,
-      "expiry": "12/20"
+      "expiry": "12/20",
+      "freezed": false
     },
     {
       "id": "2",
@@ -14,7 +15,8 @@
       "cardNumber": "4564569452362019",
 
       "cvv": 124,
-      "expiry": "12/22"
+      "expiry": "12/22",
+      "freezed": false
     }
   ]
 }

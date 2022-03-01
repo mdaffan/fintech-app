@@ -10,7 +10,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import HomePage from '@/views/m-cards.vue'
-import { BlogModule } from './store/modules/blog'
+
 import BottomNavbar from '@/components/BottomNavbar.vue'
 @Component({
   components: {

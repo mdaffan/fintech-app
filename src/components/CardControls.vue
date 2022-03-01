@@ -2,13 +2,18 @@
   <div class="card-controls-container">
     <div class="card-controls-container__quick-actions">
       <div
+        @click="$emit(action.action)"
         style="text-align:center"
         v-for="action in quickActions"
         :key="action.label"
       >
         <icon type="svg" :name="action.icon"></icon>
         <p class="font-open-sans-regular has-primary-text font-size-13">
-          {{ action.label }}
+          {{
+            action.action === 'freeze-card' && activeCard.freezed
+              ? 'Unfreeze card'
+              : action.label
+          }}
         </p>
       </div>
     </div>
@@ -48,7 +53,7 @@
       <div v-if="expanded['recent']" class="card__expanded">
         <div
           v-for="item in transactions"
-          :key="item.label"
+          :key="item.id"
           class="card__expanded__item"
         >
           <div class="d-flex">
@@ -105,63 +110,73 @@
 </template>
 
 <script lang="ts">
-export default {
-  data() {
-    return {
-      quickActions: [
-        {
-          label: 'Freeze card',
-          icon: 'freeze-card',
-        },
-        {
-          label: 'Set spend limit',
-          icon: 'spend-limit',
-        },
-        {
-          label: 'Add to GPay',
-          icon: 'gpay',
-        },
-        {
-          label: 'Replace card',
-          icon: 'replace-card',
-        },
-        {
-          label: 'Cancel card',
-          icon: 'cancel-card',
-        },
-      ],
-      expanded: {
-        recent: true,
-        details: false,
-      },
-      transactions: [
-        {
-          label: 'Hamleys',
-          amount: '150',
-          type: 'credit',
-          color: '#009DFF1A',
-          date: '20 May 2020',
-          icon: 'file-storage',
-        },
-        {
-          label: 'Hamleys',
-          amount: '150',
-          type: 'debit',
-          color: '#00D6B51A',
-          date: '20 May 2020',
-          icon: 'flights',
-        },
-        {
-          label: 'Hamleys',
-          amount: '150',
-          type: 'debit',
-          color: '#F251951A',
-          date: '20 May 2020',
-          icon: 'megaphone',
-        },
-      ],
-    }
-  },
+import { CardModule } from '@/store/modules/card/index'
+import { Component, Vue } from 'vue-property-decorator'
+@Component
+export default class CardControls extends Vue {
+  quickActions = [
+    {
+      label: 'Freeze card',
+      icon: 'freeze-card',
+      action: 'freeze-card',
+    },
+    {
+      label: 'Set spend limit',
+      icon: 'spend-limit',
+      action: 'spend-limit',
+    },
+    {
+      label: 'Add to GPay',
+      icon: 'gpay',
+      action: 'gpay',
+    },
+    {
+      label: 'Replace card',
+      icon: 'replace-card',
+      action: 'replace-card',
+    },
+    {
+      label: 'Cancel card',
+      icon: 'cancel-card',
+      action: 'cancel-card',
+    },
+  ]
+  expanded = {
+    recent: true,
+    details: false,
+  }
+  transactions = [
+    {
+      label: 'Hamleys',
+      amount: '150',
+      id: 1,
+      type: 'credit',
+      color: '#009DFF1A',
+      date: '20 May 2020',
+      icon: 'file-storage',
+    },
+    {
+      label: 'Hamleys',
+      amount: '150',
+      type: 'debit',
+      id: 2,
+      color: '#00D6B51A',
+      date: '20 May 2020',
+      icon: 'flights',
+    },
+    {
+      label: 'Hamleys',
+      amount: '150',
+      type: 'debit',
+      id: 3,
+      color: '#F251951A',
+      date: '20 May 2020',
+      icon: 'megaphone',
+    },
+  ]
+  get activeCard() {
+    return CardModule.activeCard
+  }
 }
 </script>
 

@@ -1,5 +1,12 @@
 <template>
-  <div class="card-container">
+  <div
+    :class="{
+      'card-container--disabled':
+        activeCard.id === data.id && activeCard.freezed,
+    }"
+    v-if="data"
+    class="card-container"
+  >
     <icon type="svg" name="visa" class="is-20x20 card-container__logo"></icon>
     <icon
       type="svg"
@@ -9,9 +16,9 @@
 
     <div class="card-container__content">
       <p class="font-open-sans-bold font-size-22 has-white-text">
-        Mark Henry
+        {{ data.name }}
       </p>
-      <div class="mt-6 d-flex has-white-text">
+      <div v-if="!revealCardNumber" class="mt-6 d-flex has-white-text">
         <div class="d-flex">
           <span class="card-container__content__bullet"></span>
           <span class="card-container__content__bullet ml-1"></span>
@@ -31,7 +38,30 @@
           <span class="card-container__content__bullet ml-1"></span>
         </div>
         <div class="d-flex ml-6 font-size-14 font-open-sans-bold mt-n2">
-          2020
+          {{ cardNumber[3] }}
+        </div>
+      </div>
+      <div v-else class="mt-6 d-flex has-white-text">
+        <div
+          :class="{ 'ml-6': index !== 0 }"
+          v-for="(number, index) in cardNumber"
+          :key="number"
+          class="d-flex font-size-14 font-open-sans-bold mt-n2"
+        >
+          {{ number }}
+        </div>
+      </div>
+      <div
+        class="is-flex is-align-center font-open-sans-bold mt-4 font-size-14 has-white-text"
+      >
+        <p>Thru {{ data.expiry }}</p>
+        <div class="is-flex is-align-center ml-4 ">
+          <p>
+            CVV
+          </p>
+          <p :class="{ 'font-size-22 mt-2': !revealCardNumber }" class="ml-1">
+            {{ revealCardNumber ? data.cvv : '***' }}
+          </p>
         </div>
       </div>
     </div>
@@ -39,8 +69,32 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-export default class Card extends Vue {}
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { CardModule } from '@/store/modules/card/index'
+interface CardInterface {
+  id?: string
+  name?: string
+  cardNumber?: string
+  cvv?: number
+  expiry?: string
+}
+@Component({})
+export default class Card extends Vue {
+  @Prop({ default: () => ({}) })
+  data!: CardInterface
+  @Prop({ default: () => false })
+  revealCardNumber!: boolean
+
+  get cardNumber() {
+    return this.data && this.chunkString(this.data?.cardNumber!, 4)
+  }
+  get activeCard() {
+    return CardModule.activeCard
+  }
+  chunkString(str: string, length: number) {
+    return str.match(new RegExp('.{1,' + length + '}', 'g'))
+  }
+}
 </script>
 
 <style scoped lang="scss">
@@ -50,6 +104,9 @@ export default class Card extends Vue {}
   position: relative;
   border-radius: 12px;
   background: $color-primary;
+  &--disabled {
+    opacity: 0.3;
+  }
   &__logo {
     position: absolute;
     bottom: 2.4rem;

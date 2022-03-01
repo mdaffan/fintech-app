@@ -16,7 +16,10 @@
               3000
             </div>
           </div>
-          <div class="is-flex is-align-center cards-container__new-card">
+          <div
+            @click.stop="dialog = true"
+            class="is-flex is-align-center cards-container__new-card"
+          >
             <icon type="svg" name="plus" class="is-16x16"></icon>
             <p class="font-open-sans-bold font-size-13 ml-1">New card</p>
           </div>
@@ -43,27 +46,115 @@
           v-if="active_tab === 'My debit cards'"
         >
           <VueSlickCarousel
+            v-if="allCards.length"
             style="z-index:2"
+            @afterChange="setActiveCard($event)"
             v-bind="settings"
+            :key="allCards.length"
             :arrows="false"
             :dots="true"
           >
-            <card />
-            <card />
-            <card />
+            <card
+              :revealCardNumber="revealCardNumber"
+              :data="card"
+              v-for="card in allCards"
+              :key="card.id"
+            />
           </VueSlickCarousel>
           <div class="show-card-number">
-            <div class="d-flex pa-1">
+            <div
+              @click="revealCardNumber = !revealCardNumber"
+              class="d-flex pa-1"
+            >
               <icon type="svg" name="eye" style="width:16px;height:16px"></icon>
-              <p class="ml-2">Show card number</p>
+              <p class="ml-2">
+                {{ revealCardNumber ? 'Hide' : 'Show' }} card number
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div id="b" class="panel">
-      <cards-controls />
+      <cards-controls
+        @freeze-card="
+          updateCard({
+            freezed: !activeCard.freezed,
+          })
+        "
+        @cancel-card="deleteCard(activeCard.id)"
+      />
     </div>
+    <v-dialog
+      style="z-index:9999"
+      v-model="dialog"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Add new card
+        </v-card-title>
+
+        <v-card-text>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              v-model="form.name"
+              :rules="[v => !!v || 'Item is required']"
+              label="Name"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="form.cardNumber"
+              :counter="16"
+              :rules="[v => !!v || 'Item is required']"
+              label="Card number"
+              type="number"
+              required
+            ></v-text-field>
+            <v-text-field
+              v-model="form.cvv"
+              :rules="[v => !!v || 'Item is required']"
+              label="CVV"
+              :counter="3"
+              type="number"
+              required
+            ></v-text-field>
+            <v-menu
+              v-model="date_picker"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="form.expiry"
+                  label="Expiry"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="form.expiry"
+                @input="date_picker = false"
+              ></v-date-picker>
+            </v-menu>
+          </v-form>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="addCard()">
+            Add
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -75,6 +166,7 @@ import 'vue-slick-carousel/dist/vue-slick-carousel.css'
 // optional style for arrows & dots
 import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 import Card from '@/components/Card.vue'
+import { CardModule } from '@/store/modules/card/index'
 @Component({
   components: {
     VueSlickCarousel,
@@ -93,6 +185,56 @@ export default class MobileCards extends Vue {
   ]
   active_tab = 'My debit cards'
   settings = {}
+  revealCardNumber = false
+  date_picker = false
+  valid = true
+  dialog = false
+  form = {
+    name: '',
+    cvv: undefined,
+    cardNumber: '',
+    expiry: '',
+  }
+
+  get allCards() {
+    console.log(CardModule.allCards)
+    return CardModule.allCards
+  }
+  get activeCard() {
+    console.log(CardModule.activeCard)
+    return CardModule.activeCard
+  }
+  async created() {
+    await CardModule.getAllCards()
+  }
+  setActiveCard(index: number) {
+    CardModule.setActiveCard(this.allCards[index])
+  }
+  addCard() {
+    const { v4: uuidv4 } = require('uuid')
+    const valid = (this.$refs.form as any).validate()
+    const dayjs = require('dayjs')
+    console.log(
+      '🚀 ~ file: m-cards.vue ~ line 195 ~ MobileCards ~ addCard ~ valid',
+      valid,
+    )
+    console.log(this.form)
+    CardModule.addCard({
+      ...this.form,
+      id: uuidv4(),
+      expiry: dayjs(this.form.expiry).format('MM/YY'),
+    })
+    this.dialog = false
+  }
+  updateCard(payload: any) {
+    CardModule.updateCardDetails({
+      ...this.activeCard,
+      ...payload,
+    })
+  }
+  deleteCard(id: string) {
+    CardModule.deleteCard(id)
+  }
 }
 </script>
 
@@ -170,11 +312,11 @@ export default class MobileCards extends Vue {
 .show-card-number {
   color: $color-primary;
   position: absolute;
-  top: -24px;
-  right: -1px;
+  top: -21px;
+  right: 5px;
   background: $white;
   z-index: 1;
-  height: 4rem;
+  height: 2.5rem;
   border-radius: 6px 6px 0 0;
 }
 ::v-deep .slick-dots {
@@ -196,5 +338,8 @@ export default class MobileCards extends Vue {
     opacity: 10%;
     list-style: none;
   }
+}
+::v-deep .slick-slide {
+  padding: 0 0.4rem;
 }
 </style>

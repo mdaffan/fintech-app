@@ -1,11 +1,14 @@
 # fintech-app
 
-
 # Features
-
 
 - [x] Responsive and Neat UI
 - [x] TypeScript support with Strongly Typed Store(Vuex)
+- [x] Adding, Deleting, Updating(Freeze/Unfreeze) for a card
+- [x] Scalable API structure
+- [x] Eslint integration
+- [x] BEM pattern
+- [x] Scss and helper scss files for faster development
 
 # Tech Stack
 
